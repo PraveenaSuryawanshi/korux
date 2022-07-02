@@ -1,9 +1,10 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { useState} from "react";
+import { useState , useEffect} from "react";
 
 const Tabcomponent = () => {
-  const data = [
+
+    const data = [
     {
       id:1,
       name: "Indiana",
@@ -37,16 +38,29 @@ const Tabcomponent = () => {
   ];
 
 //   checked box 
-const [checked, setChecked] = useState(false);
- 
+const [ischecked, setChecked] = useState([]);
+
 // submmitted values
-const [dataValue, setvalue] = useState(data);
+const [dataValue, setvalue] = useState([]);
+
+useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        'https://jsonplaceholder.typicode.com/users',
+      );
+      const json = await res.json();
+      setvalue(json);
+    };
+    fetchData();
+  }, [setvalue]);
+
+
 // form data
 const [addData, setDaata] = useState({
     id: "",
     name: "",
-    description: "",
-    web: "",
+    username: "",
+    email: "",
   });
 
   const submmitted = (e) => {
@@ -54,8 +68,8 @@ const [addData, setDaata] = useState({
     const newdata = {
         id:addData.id,
         name: addData.name,
-        description: addData.description,
-        web: addData.web,
+        username: addData.username,
+        email: addData.email,
     };
     
      const saveddata = [...dataValue,newdata];
@@ -72,24 +86,41 @@ const [addData, setDaata] = useState({
 
   const deletBtn = (e) => {
       e.preventDefault();
-      const checkedformvalue = checked;
-      setChecked(checkedformvalue);
-      console.log(checkedformvalue[0]);
+    const newcheck = [...dataValue];
 
-    //   document.title = checkedformvalue[0].id;
-
-    //   setvalue(dataValue.slice(0, 1));
+    newcheck.splice(ischecked,ischecked.length);
+    console.log(ischecked)
+    setvalue(newcheck);
   }
+
 
   const onchangechecked = (e) => {
-    const checkedId = e.target.getAttribute("id");
-    const checkedvalue = e.target.id;
-    const checkedformvalue = { ...checked };
-    checkedformvalue[checkedId] = checkedvalue;
-    setChecked(checkedformvalue);
-    // console.log(checkedformvalue[checkedId]);
-    // setChecked(data.filter(item => item.id !== checkedId));
+    const {value,checked} = e.target;
+    if(checked){
+        setChecked([...ischecked , value])
+    } else {
+        setChecked(ischecked.filter((e)=> e !== value))
+    }
   }
+
+  const [searchTerm, setSearchTerm] = React.useState("");
+ const [searchResults, setSearchResults] = React.useState([]);
+ const handleChange = event => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filtered = !searchTerm
+    ? dataValue
+    : dataValue.filter((person) =>
+        person.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+//   useEffect(() => {
+//     const results = dataValue.filter(person =>
+//       person.includes(searchTerm.toLowerCase())
+//     );
+//     setSearchResults(results);
+//   }, [searchTerm]);
 
   return (
       
@@ -113,6 +144,8 @@ const [addData, setDaata] = useState({
                   className="placeholder:italic placeholder:text-slate-400 block bg-white w-3/6 border border-slate-300 rounded py-2 pl-3 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                   type="text"
                   name="search"
+                  value={searchTerm}
+                  onChange={handleChange}
                 />
                 <button onClick={deletBtn} className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto">
                   Delete
@@ -126,7 +159,7 @@ const [addData, setDaata] = useState({
                 <thead className="bg-lime-500 text-white">
                   <tr>
                     <th className="text-sm border border-slate-300 p-2">
-                      <input type="checkbox" class="checked:bg-blue-500" />
+                      {/* <input onChange={onchangechecked} type="checkbox" class="checked:bg-blue-500" /> */}
                     </th>
 
                     <th className="text-sm border border-slate-300 p-2">
@@ -141,29 +174,31 @@ const [addData, setDaata] = useState({
                   </tr>
                 </thead>
                 <tbody>
-                  {dataValue.map((items,index) => {
+                  {filtered.map((items,index) => {
                       items.id = index;
                     return (
                       <>
                         <tr key={index}>
                           <td className="text-center text-sm border border-slate-300 p-2">
                             <input id={index}  
-                            onChange={onchangechecked}
-                            checked={checked === true ? checked : null}  
+                              onClick={onchangechecked}
                               type="checkbox"
+                            
                               class="checked:bg-blue-500"
+                              value={items.id}
                             />
                           </td>
-                        
+                         
                           <td className="text-sm border border-slate-300 p-2">
                             {items.name}
                           </td>
                           <td className="text-sm border border-slate-300 p-2">
-                            {items.description}
+                            {items.username}
                           </td>
                           <td className="text-sm border border-slate-300 p-2">
-                            {items.web}
+                            {items.email}
                           </td>
+                         
                         </tr>
                       </>
                     );
@@ -203,16 +238,16 @@ const [addData, setDaata] = useState({
                     <input
                       className="w-full mb-4 placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded py-2 pl-3 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                       type="text"
-                      name="description"
-                      value={addData.description}
+                      name="username"
+                      value={addData.username}
                       onChange={changeInput}
                     />
 
                     <input
                       className="w-full mb-4 placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded py-2 pl-3 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
-                      value={addData.web}
+                      value={addData.email}
                       type="text"
-                      name="web"
+                      name="email"
                       onChange={changeInput}
                     />
                   </form>
