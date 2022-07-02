@@ -3,33 +3,81 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useState, useEffect } from "react";
 
 const Tabcomponent = () => {
+  const data = [
+    {
+      id: 1,
+      name: "Indiana",
+      description: "demo",
+      web: "Indianapolis",
+    },
+    {
+      id: 2,
+      name: "abc",
+      description: "demo",
+      web: "Indianapolis",
+    },
+    {
+      id: 3,
+      name: "vvv",
+      description: "demo",
+      web: "Indianapolis",
+    },
+    {
+      id: 4,
+      name: "ygvggv",
+      description: "demo",
+      web: "Indianapolis",
+    },
+    {
+      id: 4,
+      name: "bhagvg",
+      description: "demo",
+      web: "Indianapolis",
+    },
+  ];
+
+  const [dataValue, setvalue] = useState(data);
   const [addData, setDaata] = useState({
     name: "",
     description: "",
     web: "",
   });
 
-  const [theArray, setTheArray] = useState([
-    { name: addData.name, description: addData.description, web: addData.web },
-  ]);
-
-  useEffect(() => {    
-    document.title = `You clicked ${addData.name} times`;  
-});
-
   const submmitted = (e) => {
     e.preventDefault();
-    setTheArray((oldArray) => [
-      ...oldArray,
-      {
+    const newdata = {
+        id:addData.id,
         name: addData.name,
         description: addData.description,
         web: addData.web,
-      },
-    ]);
-    console.log(theArray.name);
+    };
+    
+
+     const saveddata = [...dataValue,newdata];
+     setvalue(saveddata);
+
+     console.log(saveddata);
   };
 
+  const changeInput = (e) => {
+    const fieldname = e.target.getAttribute("name");
+    const fieldValue = e.target.value;
+    const newformvalue = { ...addData };
+    newformvalue[fieldname] = fieldValue;
+    setDaata(newformvalue);
+  };
+
+  const deletBtn = (e, deletId) => {
+      e.preventDefault();
+      const deletdata = [...dataValue];
+      const index = dataValue.findIndex((data)=>data.id);
+      console.log(index);
+    //   deletdata.splice(index,1);
+      setDaata(deletdata);
+
+  }
+  const ids="";
+console.log(ids);
   return (
     <div className="block">
       <Tabs className="p-4">
@@ -63,7 +111,6 @@ const Tabcomponent = () => {
                 <thead className="bg-lime-500 text-white">
                   <tr>
                     <th className="text-sm border border-slate-300 p-2">
-                      {" "}
                       <input type="checkbox" class="checked:bg-blue-500" />
                     </th>
 
@@ -79,48 +126,36 @@ const Tabcomponent = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="text-center text-sm border border-slate-300 p-2">
-                      <input type="checkbox" class="checked:bg-blue-500" />
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Indiana
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Indianapolis
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Indianapolis
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-center text-sm border border-slate-300 p-2">
-                      <input type="checkbox" class="checked:bg-blue-500" />
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Ohio
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Columbus
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Indianapolis
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-center text-sm border border-slate-300 p-2">
-                      <input type="checkbox" class="checked:bg-blue-500" />
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Michigan
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Detroit
-                    </td>
-                    <td className="text-sm border border-slate-300 p-2">
-                      Indianapolis
-                    </td>
-                  </tr>
+                  {dataValue.map((items,index) => {
+                       ids = index;
+                    return (
+                      <>
+                        <tr key={index}>
+                          <td className="text-center text-sm border border-slate-300 p-2">
+                            <input id={index} 
+                            
+                              type="checkbox"
+                              class="checked:bg-blue-500"
+                            />
+                          </td>
+
+                          <td className="text-sm border border-slate-300 p-2">
+                            {items.name}
+                          </td>
+                          <td className="text-sm border border-slate-300 p-2">
+                            {items.description}
+                          </td>
+                          <td className="text-sm border border-slate-300 p-2">
+                            {items.web}
+                          </td>
+                            <button onClick={deletBtn} className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto">
+                            Delete
+                            </button>
+                        </tr>
+                      </>
+                    );
+                  })}
+                
                 </tbody>
               </table>
             </TabPanel>
@@ -149,19 +184,15 @@ const Tabcomponent = () => {
                       type="text"
                       name="name"
                       value={addData.name}
-                      onChange={(e) =>
-                        setDaata({ ...addData, name: e.target.value })
-                      }
+                      onChange={changeInput}
                     />
 
                     <input
                       className="w-full mb-4 placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded py-2 pl-3 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
                       type="text"
-                      name="descripation"
+                      name="description"
                       value={addData.description}
-                      onChange={(e) =>
-                        setDaata({ ...addData, description: e.target.value })
-                      }
+                      onChange={changeInput}
                     />
 
                     <input
@@ -169,9 +200,7 @@ const Tabcomponent = () => {
                       value={addData.web}
                       type="text"
                       name="web"
-                      onChange={(e) =>
-                        setDaata({ ...addData, web: e.target.value })
-                      }
+                      onChange={changeInput}
                     />
                   </form>
                 </div>
@@ -182,7 +211,6 @@ const Tabcomponent = () => {
               >
                 Add
               </button>
-              <p>{theArray.name}</p>
             </form>
           </div>
         </div>
