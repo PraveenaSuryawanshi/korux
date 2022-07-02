@@ -1,79 +1,61 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
+import Tabdata from "./tabdata";
 
 const Tabcomponent = () => {
-
-    const data = [
-    {
-      id:1,
-      name: "Indiana",
-      description: "demo",
-      web: "Indianapolis",
-    },
-    {
-        id:2,
-      name: "abc",
-      description: "demo",
-      web: "Indianapolis",
-    },
-    {
-        id:3,
-      name: "vvv",
-      description: "demo",
-      web: "Indianapolis",
-    },
-    {
-        id:4,
-      name: "ygvggv",
-      description: "demo",
-      web: "Indianapolis",
-    },
-    {
-        id:5,
-      name: "bhagvg",
-      description: "demo",
-      web: "Indianapolis",
-    },
+  const headings = [
+    { heading: "Immunisation Alets", id: "tab:r1:0" },
+    { heading: "Lab Alets", id: "tab:r1:1" },
+    { heading: "Dl Alerts", id: "tab:r1:2" },
+    { heading: "Procedure Alerts", id: "tab:r1:3" },
+    { heading: "Rx specific Alerts", id: "tab:r1:4" },
+    { heading: "Dx specific Alerts", id: "tab:r1:5" },
+    { heading: "Patient specific Alerts", id: "tab:r1:6" },
   ];
 
-//   checked box 
-const [ischecked, setChecked] = useState([]);
+  //   checked box
+  const [ischecked, setChecked] = useState([]);
 
-// submmitted values
-const [dataValue, setvalue] = useState([]);
+  // submmitted values
+  const [dataValue, setvalue] = useState([]);
 
-useEffect(() => {
+  //   getHeading values
+  const [headingdata, setheadingdata] = useState("tab:r1:0");
+
+  useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
-        'https://jsonplaceholder.typicode.com/users',
-      );
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
       const json = await res.json();
       setvalue(json);
     };
     fetchData();
   }, [setvalue]);
 
-
-// form data
-const [addData, setDaata] = useState({
+  // form data
+  const [addData, setDaata] = useState({
     id: "",
     name: "",
     username: "",
     email: "",
   });
 
+  const handleclick = (e) => {
+    setheadingdata(e.target.id);
+    console.log(headingdata);
+  };
+
   const submmitted = (e) => {
     e.preventDefault();
     const newdata = {
-        id:addData.id,
-        name: addData.name,
-        username: addData.username,
-        email: addData.email,
+      id: addData.id,
+      name: addData.name,
+      username: addData.username,
+      email: addData.email,
     };
-    
-     const saveddata = [...dataValue,newdata];
-     setvalue(saveddata);
+
+    const saveddata = [...dataValue, newdata];
+    setvalue(saveddata);
   };
 
   const changeInput = (e) => {
@@ -85,27 +67,24 @@ const [addData, setDaata] = useState({
   };
 
   const deletBtn = (e) => {
-      e.preventDefault();
+    e.preventDefault();
     const newcheck = [...dataValue];
-
-    newcheck.splice(ischecked,ischecked.length);
-    console.log(ischecked)
+    newcheck.splice(ischecked, ischecked.length);
+    console.log(ischecked);
     setvalue(newcheck);
-  }
-
+  };
 
   const onchangechecked = (e) => {
-    const {value,checked} = e.target;
-    if(checked){
-        setChecked([...ischecked , value])
+    const { value, checked } = e.target;
+    if (checked) {
+      setChecked([...ischecked, value]);
     } else {
-        setChecked(ischecked.filter((e)=> e !== value))
+      setChecked(ischecked.filter((e) => e !== value));
     }
-  }
+  };
 
   const [searchTerm, setSearchTerm] = React.useState("");
- const [searchResults, setSearchResults] = React.useState([]);
- const handleChange = event => {
+  const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
@@ -115,28 +94,41 @@ const [addData, setDaata] = useState({
         person.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-//   useEffect(() => {
-//     const results = dataValue.filter(person =>
-//       person.includes(searchTerm.toLowerCase())
-//     );
-//     setSearchResults(results);
-//   }, [searchTerm]);
-
   return (
-      
-    <div className="block">
+    <div className="block text-sm">
       <Tabs className="p-4">
-        <TabList className="flex">
-          <Tab className="tabs bg-lime-500 text-white">Immunisation Alets</Tab>
-          <Tab className="tabs mr-1 bg-lime-500 text-white">Lab Alets</Tab>
-          <Tab className="mr-1 tabs tabs bg-lime-500 text-white">
-            Immunisation Alets
-          </Tab>
-          <Tab className="mr-1 tabs bg-lime-500 text-white">Lab Alets</Tab>
-        </TabList>
+        <div className="borderBottom">
+          <TabList className="flex overflow-scroll ml-9">
+            {headings.map((item, i) => {
+              item.id = i;
+              return (
+                <>
+                  <Tab
+                    onClick={handleclick}
+                    className="ml-1 tabs tabs bg-lime-500 text-white"
+                  >
+                    {item.heading}
+                  </Tab>
+                </>
+              );
+            })}
+          </TabList>
+        </div>
         <div className="flex">
-          <div className="p-4 w-1/2 border-r-2 border-slate-300">
-            <h3 className="text-lime-500 font-medium">Immunisation Alets</h3>
+          <div className="p-4 md:w-auto w-1/2 border-r-2 border-slate-300">
+            {headings
+              ? headings.map((item, index) => {
+                  item.id = "tab:r1:" + index;
+                  return item.id === headingdata ? (
+                    <h3 id={index} className="text-lime-500 font-medium">
+                      {item.heading}
+                    </h3>
+                  ) : (
+                    ""
+                  );
+                })
+              : ""}
+
             <form className="mt-4">
               <label className="relative flex">
                 <span className="mr-2 mt-1.5">Find</span>
@@ -147,83 +139,86 @@ const [addData, setDaata] = useState({
                   value={searchTerm}
                   onChange={handleChange}
                 />
-                <button onClick={deletBtn} className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto">
+                <button
+                  onClick={deletBtn}
+                  className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto"
+                >
                   Delete
                 </button>
-                
               </label>
             </form>
 
             <TabPanel>
-              <table className="mt-6 mb-6 border-collapse border border-slate-400 ...">
-                <thead className="bg-lime-500 text-white">
-                  <tr>
-                    <th className="text-sm border border-slate-300 p-2">
-                      {/* <input onChange={onchangechecked} type="checkbox" class="checked:bg-blue-500" /> */}
-                    </th>
-
-                    <th className="text-sm border border-slate-300 p-2">
-                      Name
-                    </th>
-                    <th className="text-sm border border-slate-300 p-2">
-                      Description
-                    </th>
-                    <th className="text-sm border border-slate-300 p-2">
-                      Web Reference
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((items,index) => {
-                      items.id = index;
-                    return (
-                      <>
-                        <tr key={index}>
-                          <td className="text-center text-sm border border-slate-300 p-2">
-                            <input id={index}  
-                              onClick={onchangechecked}
-                              type="checkbox"
-                            
-                              class="checked:bg-blue-500"
-                              value={items.id}
-                            />
-                          </td>
-                         
-                          <td className="text-sm border border-slate-300 p-2">
-                            {items.name}
-                          </td>
-                          <td className="text-sm border border-slate-300 p-2">
-                            {items.username}
-                          </td>
-                          <td className="text-sm border border-slate-300 p-2">
-                            {items.email}
-                          </td>
-                         
-                        </tr>
-                      </>
-                    );
-                  })}
-                
-                </tbody>
-              </table>
+              <Tabdata 
+                filtered={filtered}
+                name="Name"
+                description="Description"
+                web="Web Refernce"
+                onClick={onchangechecked}
+              />
             </TabPanel>
             <TabPanel>
-              <h2>Any content 2</h2>
+              <Tabdata
+                filtered={filtered}
+                name="Description"
+                description="Name"
+                web="Email"
+                onClick={onchangechecked}
+              />
             </TabPanel>
             <TabPanel>
-              <h2>Any content 3</h2>
+              <Tabdata
+                filtered={filtered}
+                name="Name"
+                description="Description"
+                web="Web Refernce"
+                onClick={onchangechecked}
+              />
             </TabPanel>
             <TabPanel>
-              <h2>Any content 4</h2>
+              <Tabdata
+                filtered={filtered}
+                name="Description"
+                description="Name"
+                web="Email"
+                onClick={onchangechecked}
+              />
+            </TabPanel>
+            <TabPanel>
+              <Tabdata
+                filtered={filtered}
+                name="Name"
+                description="Description"
+                web="Web Refernce"
+                onClick={onchangechecked}
+              />
+            </TabPanel>
+            <TabPanel>
+              <Tabdata
+                filtered={filtered}
+                name="Description"
+                description="Name"
+                web="Email"
+                onClick={onchangechecked}
+              />
+            </TabPanel>
+            <TabPanel>
+              <Tabdata
+                filtered={filtered}
+                name="Name"
+                description="Description"
+                web="Web Refernce"
+                onClick={onchangechecked}
+              />
             </TabPanel>
           </div>
           <div className="w-1/2 px-5">
             <form className="mt-4">
               <div className="flex">
                 <div className="w-1/4">
-                  <p className="py-3.5">Name</p>
-                  <p className="py-3.5">Description</p>
-                  <p className="py-3.5">Web Ref</p>
+                  <p className="py-3.5 md:break-all md:px-4">Name</p>
+                  <p className="py-3.5 md:break-all md:px-4">Description</p>
+                  <p className="py-3.5 md:break-all md:px-4">Web Ref</p>
                 </div>
                 <div className="w-3/4">
                   <form>

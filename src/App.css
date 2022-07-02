@@ -1,8 +1,7 @@
 body{
   background-image: linear-gradient( 174.2deg,  rgba(255,244,228,1) 7.1%, rgba(240,246,238,1) 67.4% );
-  /* background-image: radial-gradient( circle farthest-corner at 22.4% 21.7%, rgba(4,189,228,1) 0%, rgba(2,83,185,1) 100.2% ); */
   background-repeat: no-repeat;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .modal{
@@ -23,4 +22,27 @@ body{
 
 .tabs{
   padding: 5px 10px;
+}
+
+.ml-9{
+  margin-left: 17.4%;
+  margin-bottom: -3px;
+}
+
+.borderBottom{
+  margin-right: 21px;
+  border-bottom: 3px solid #84cc17;
+}
+
+li:nth-child(2) {
+  margin-left: 0px;
+}
+.modal_scroll{
+  height: 700px;
+  overflow: scroll;
+}
+@media only screen and (max-width: 1024px) {
+  .ml-9{
+    margin-left: 6.1%;
+  }
 }
