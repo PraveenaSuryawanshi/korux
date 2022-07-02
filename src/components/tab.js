@@ -1,11 +1,11 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { useState, useEffect , useRef } from "react";
+import { useState} from "react";
 
 const Tabcomponent = () => {
   const data = [
     {
-    id:1,
+      id:1,
       name: "Indiana",
       description: "demo",
       web: "Indianapolis",
@@ -36,14 +36,13 @@ const Tabcomponent = () => {
     },
   ];
 
-  const count = useRef(6);
-  
-  useEffect(() => {
-    count.current = count.current + 1;
-  });
-  
-  const [dataValue, setvalue] = useState(data);
-  const [addData, setDaata] = useState({
+//   checked box 
+const [checked, setChecked] = useState(false);
+ 
+// submmitted values
+const [dataValue, setvalue] = useState(data);
+// form data
+const [addData, setDaata] = useState({
     id: "",
     name: "",
     description: "",
@@ -59,11 +58,8 @@ const Tabcomponent = () => {
         web: addData.web,
     };
     
-
      const saveddata = [...dataValue,newdata];
      setvalue(saveddata);
-
-     console.log(saveddata);
   };
 
   const changeInput = (e) => {
@@ -74,16 +70,29 @@ const Tabcomponent = () => {
     setDaata(newformvalue);
   };
 
-  const deletBtn = (e, deletId) => {
+  const deletBtn = (e) => {
       e.preventDefault();
-      const deletdata = [...dataValue];
-      const index = dataValue.findIndex((data)=>data.id);
-      console.log(index);
-    //   deletdata.splice(index,1);
-      setDaata(deletdata);
+      const checkedformvalue = checked;
+      setChecked(checkedformvalue);
+      console.log(checkedformvalue[0]);
 
+    //   document.title = checkedformvalue[0].id;
+
+    //   setvalue(dataValue.slice(0, 1));
   }
+
+  const onchangechecked = (e) => {
+    const checkedId = e.target.getAttribute("id");
+    const checkedvalue = e.target.id;
+    const checkedformvalue = { ...checked };
+    checkedformvalue[checkedId] = checkedvalue;
+    setChecked(checkedformvalue);
+    // console.log(checkedformvalue[checkedId]);
+    // setChecked(data.filter(item => item.id !== checkedId));
+  }
+
   return (
+      
     <div className="block">
       <Tabs className="p-4">
         <TabList className="flex">
@@ -105,9 +114,10 @@ const Tabcomponent = () => {
                   type="text"
                   name="search"
                 />
-                <button className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto">
+                <button onClick={deletBtn} className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto">
                   Delete
                 </button>
+                
               </label>
             </form>
 
@@ -137,12 +147,14 @@ const Tabcomponent = () => {
                       <>
                         <tr key={index}>
                           <td className="text-center text-sm border border-slate-300 p-2">
-                            <input id={index} 
+                            <input id={index}  
+                            onChange={onchangechecked}
+                            checked={checked === true ? checked : null}  
                               type="checkbox"
                               class="checked:bg-blue-500"
                             />
                           </td>
-
+                        
                           <td className="text-sm border border-slate-300 p-2">
                             {items.name}
                           </td>
@@ -152,9 +164,6 @@ const Tabcomponent = () => {
                           <td className="text-sm border border-slate-300 p-2">
                             {items.web}
                           </td>
-                            <button onClick={deletBtn} className="bg-slate-200 border-slate-400 border rounded px-4 ml-auto">
-                            Delete
-                            </button>
                         </tr>
                       </>
                     );

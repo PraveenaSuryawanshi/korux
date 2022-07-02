@@ -5,6 +5,7 @@ import "./App.css";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+  
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
