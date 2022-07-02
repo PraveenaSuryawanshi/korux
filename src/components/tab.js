@@ -1,43 +1,50 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef } from "react";
 
 const Tabcomponent = () => {
   const data = [
     {
-      id: 1,
+    id:1,
       name: "Indiana",
       description: "demo",
       web: "Indianapolis",
     },
     {
-      id: 2,
+        id:2,
       name: "abc",
       description: "demo",
       web: "Indianapolis",
     },
     {
-      id: 3,
+        id:3,
       name: "vvv",
       description: "demo",
       web: "Indianapolis",
     },
     {
-      id: 4,
+        id:4,
       name: "ygvggv",
       description: "demo",
       web: "Indianapolis",
     },
     {
-      id: 4,
+        id:5,
       name: "bhagvg",
       description: "demo",
       web: "Indianapolis",
     },
   ];
 
+  const count = useRef(6);
+  
+  useEffect(() => {
+    count.current = count.current + 1;
+  });
+  
   const [dataValue, setvalue] = useState(data);
   const [addData, setDaata] = useState({
+    id: "",
     name: "",
     description: "",
     web: "",
@@ -76,8 +83,6 @@ const Tabcomponent = () => {
       setDaata(deletdata);
 
   }
-  const ids="";
-console.log(ids);
   return (
     <div className="block">
       <Tabs className="p-4">
@@ -127,13 +132,12 @@ console.log(ids);
                 </thead>
                 <tbody>
                   {dataValue.map((items,index) => {
-                       ids = index;
+                      items.id = index;
                     return (
                       <>
                         <tr key={index}>
                           <td className="text-center text-sm border border-slate-300 p-2">
                             <input id={index} 
-                            
                               type="checkbox"
                               class="checked:bg-blue-500"
                             />
