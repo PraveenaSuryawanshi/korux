@@ -196,7 +196,7 @@ const Tabcomponent = () => {
                 onClick={onchangechecked}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className="overflow-auto">
               <Tabdata
                 filtered={filtered}
                 name="Description"
@@ -205,7 +205,7 @@ const Tabcomponent = () => {
                 onClick={onchangechecked}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className="overflow-auto">
               <Tabdata
                 filtered={filtered}
                 name="Name"
@@ -214,7 +214,7 @@ const Tabcomponent = () => {
                 onClick={onchangechecked}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className="overflow-auto">
               <Tabdata
                 filtered={filtered}
                 name="Description"
@@ -223,7 +223,7 @@ const Tabcomponent = () => {
                 onClick={onchangechecked}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className="overflow-auto">
               <Tabdata
                 filtered={filtered}
                 name="Name"
@@ -232,7 +232,7 @@ const Tabcomponent = () => {
                 onClick={onchangechecked}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className="overflow-auto">
               <Tabdata
                 filtered={filtered}
                 name="Description"
@@ -241,7 +241,7 @@ const Tabcomponent = () => {
                 onClick={onchangechecked}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className="overflow-auto">
               <Tabdata
                 filtered={filtered}
                 name="Name"
