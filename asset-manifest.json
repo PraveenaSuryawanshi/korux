@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/korux/static/css/main.72b294ff.css",
+    "main.js": "/korux/static/js/main.969830d6.js",
+    "static/js/787.b9e8e5de.chunk.js": "/korux/static/js/787.b9e8e5de.chunk.js",
+    "index.html": "/korux/index.html",
+    "main.72b294ff.css.map": "/korux/static/css/main.72b294ff.css.map",
+    "main.969830d6.js.map": "/korux/static/js/main.969830d6.js.map",
+    "787.b9e8e5de.chunk.js.map": "/korux/static/js/787.b9e8e5de.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.72b294ff.css",
+    "static/js/main.969830d6.js"
+  ]
+}
