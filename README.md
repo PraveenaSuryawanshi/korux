@@ -4,7 +4,24 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+### Here is github page link (view-website)
+
+[https://praveenasuryawanshi.github.io/korux/](Click Here)
+
+## Framework Used :
+1) React js (Latest Version)
+2) Tailwind css
+
+## Features Added : 
+1) Search Box (Find box) this will show the results based on user input search string.
+2) Sort values by name this will sort items in ascending order.3) Modal  when the user clicks the button modal will appear.
+4) SideForm this form will add new items to our data list and added validation.5) Delete button this will delete the checked items on click.
+6) Tabs will show data in tabular form.
+
+
+
 In the project directory, you can run:
+
 
 ### `npm start`
 
