@@ -2,7 +2,6 @@ import { useState } from "react";
 import React from "react";
 import Tabcomponent from "./components/tab";
 import "./App.css";
-
 function App() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,7 +35,7 @@ function App() {
                   </h3>
                   <button
                     type="button"
-                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     data-modal-toggle="defaultModal"
                   >
                     <svg
@@ -59,10 +58,6 @@ function App() {
                 <div class="shadow-sm bg-slate-50">
                   <Tabcomponent />
                 </div>
-                {/* Modal footer  */}
-                {/* <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                 
-                </div> */}
               </div>
             </div>
           </div>
