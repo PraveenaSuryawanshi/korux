@@ -15,7 +15,7 @@ function App() {
           onClick={toggleModal}
           className="bg-white hover:bg-gray-100 m-auto block text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
         >
-          Open Model
+          Open Modal
         </button>
       </div>
 
